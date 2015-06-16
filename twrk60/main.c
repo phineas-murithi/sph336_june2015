@@ -15,7 +15,7 @@
 
 int main(void){	
 	//whether to blink LEDS
-	blink=1;
+	blink=0;
 
 	//initialize system
 	SystemInit();

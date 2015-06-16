@@ -19,6 +19,8 @@ LD = $(TOOLCHAIN)gcc
 OBJCP = $(TOOLCHAIN)objcopy
 AR = $(TOOLCHAIN)ar
 GDB = $(TOOLCHAIN)gdb
+GDBSERVER = openocd -c "interface osbdm" -f /usr/local/share/openocd/scripts/board/twr-k60n512.cfg
+OPENOCDPID = $(shell pgrep openocd)
 
 # application specific
 CPU := cortex-m4
@@ -90,8 +92,11 @@ $(OBJ_FOLDER)%.o : %.s
 	@echo 'Finished building: $(@F)'
 	@echo ' '
 # TODO: generate assembly lisiting
-debug: all 
-	$(GDB) -q -x .gdbcmds
+debug: all
+ifeq ($(OPENOCDPID), ) # start openocd if not already running
+	$(GDBSERVER) &
+endif
+	$(GDB) -q -x .gdbcmds 
 	 
 all: clean create_outputdir $(OBJ_FOLDER)$(TARGET).$(TARGET_EXT) print_size
 
