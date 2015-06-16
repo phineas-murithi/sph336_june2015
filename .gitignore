@@ -30,3 +30,6 @@
 
 # Debug files
 *.dSYM/
+
+#output directory
+twrk60/out
