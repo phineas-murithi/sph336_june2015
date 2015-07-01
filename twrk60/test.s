@@ -1,18 +1,16 @@
 /*
  * test.asm
  *
- *  Created on: Mar 9, 2015
- *      Author: karibe
+ * Copyright (c) 2015 David Muriuki
+ * see the LICENCE file
  */
 
 .thumb
 .syntax unified
 
 #include "gpio.h"
-//IMPORT c
 
-
-.equ LEDS, 1<<11 | 1<<28 | 1<<29 | 1<<10	//declare the all LEDS mask
+.equ LEDS, 1<<11 | 1<<28 | 1<<29 | 1<<10	//declare the LEDS mask
 .equ LED2, 1<<28	//declare LED2 mask
 
 .global toggle_LEDS
