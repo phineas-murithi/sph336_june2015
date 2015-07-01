@@ -34,7 +34,7 @@ int main(void){
 			byte = uart_read();
 			if(byte==0xD) puts((uint8_t *)"\r\n"); //send new line character
 			else uartsend((uint8_t)byte); //echo back the data
-			if(blink){toggle_LED2(); delay(); toggle_LED2();} //show activity on LED2
+			if(blink){toggle_LED2(); delay(); toggle_LED4(); delay();} //show activity on LED2 and LED4
 		}
 	}
 }
