@@ -14,7 +14,9 @@
 void gpio_init(void);
 
 extern void toggle_LEDS(void);
+extern void toggle_LED1(void);
 extern void toggle_LED2(void);
+extern void toggle_LED3(void);
 extern void toggle_LED4(void);
 extern void puts(uint8_t *s);
 extern void SystemInit(void);
