@@ -21,7 +21,7 @@ echo ----------------------\n
 monitor reset init
 echo \n
 echo setting breakpoint at main.c line 31\n
-b main.c:31
+b main.c:38
 echo \n
 echo Continuing...\n
 c

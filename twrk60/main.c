@@ -1,24 +1,24 @@
 /*
  * File: main.c
  *
- * Copyright (c) karibe 2015, karfes@gmail.com
- *
- * This program is free software. It comes without any warranty, to
- * the extent permitted by applicable law. You can redistribute it
- * and/or modify it under the terms of the Do What You Want
- * To Public License, Version 2, as published by Sam Hocevar. See
- * http://www.wtfpl.net/ for more details.
- *
+ * Copyright (c) 2015 David Muriuki
+ * see the LICENCE file
  */
 
 #include "main.h"
+//int dec = 0;
 
 int main(void){	
-	//whether to blink LEDS
-	blink=0;
+	//whether to blink LED2
+	uint8_t blink=1;
+	//temporally UART data holder
+	uint8_t byte=0;
 
 	//initialize system
 	SystemInit();
+
+	//initialize UART5 with 8-N-1 settings, 57600 baudrate
+	init_uart(UART5_BASE_PTR,periph_clk_khz,57600);
 
 	//clear all interrupts and enable interrupts
 	nvic->ICPR[2] |= 1 << (87 & 0x1F); //Clear Pending Interrupts
@@ -30,8 +30,19 @@ int main(void){
 	//Loop forever
 	while(1)
 	{
-		if(blink) toggle_LED2();
-		delay();
+		//use polling method to echo back data when available
+		if(data_available()){ 
+			byte = uart_read();
+			if(byte==0xD) puts((uint8_t *)"\r\n"); //send new line character
+			else uartsend((uint8_t)byte); //echo back the data
+			if(blink){
+    				toggle_LED2(); 
+    				toggle_LED4(); 
+   				delay(); 
+    				toggle_LED2();  
+    				toggle_LED4();
+					}
+		}
 	}
 }
 
@@ -42,9 +53,11 @@ void delay(void)
 {
   volatile unsigned int i,j;
 
-  for(i=0; i<25000; i++)
+  for(i=0; i<1000; i++)
   {
 	for(j=0; j<300; j++)
       __asm__("nop");
   }
 }
+
+
