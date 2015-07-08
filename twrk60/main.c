@@ -6,13 +6,29 @@
  */
 
 #include "main.h"
-//int dec = 0;
+uint8_t bits;
+uint8_t byte=0x0;
+
+void display(uint8_t byte)
+{
+	//reading the 4 bits into an array
+	char bits[4];
+    	int i = 0;
+	for (i=0; i<4; i++) 
+	{
+	 bits[i] = (byte >> i) & 1;
+	}
+	//mask for the 4 LEDS on a 32-bit register
+	uint32_t BYTE_LEDS;
+	BYTE_LEDS = bits[0]<<11 | bits[1]<<28 | bits[2]<<29 | bits[3]<<10;
+	
+	GPIOA->PDOR.word_reg = ~ BYTE_LEDS;
+}
 
 int main(void){	
 	//whether to blink LED2
-	uint8_t blink=1;
+	//uint8_t blink=1;
 	//temporally UART data holder
-	uint8_t byte=0;
 
 	//initialize system
 	SystemInit();
@@ -34,14 +50,16 @@ int main(void){
 		if(data_available()){ 
 			byte = uart_read();
 			if(byte==0xD) puts((uint8_t *)"\r\n"); //send new line character
-			else uartsend((uint8_t)byte); //echo back the data
-			if(blink){
-    				toggle_LED2(); 
-    				toggle_LED4(); 
-   				delay(); 
-    				toggle_LED2();  
-    				toggle_LED4();
-					}
+			
+			//0 to 9 ascii code in hexadecimal 
+			else if ((byte >= 0x30) && (byte <= 0x39)) 
+			{byte = byte - 0x30; display(byte);}
+			
+			//small case letters a to f ascii code in hexadecimal
+			else if ((byte >= 0x61) && (byte <= 0x66))
+			{byte = byte - 0x57; display(byte);}
+			  
+			 else {display(byte);}
 		}
 	}
 }
@@ -59,5 +77,4 @@ void delay(void)
       __asm__("nop");
   }
 }
-
 
