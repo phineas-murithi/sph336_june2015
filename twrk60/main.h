@@ -12,5 +12,6 @@
 #include"uart.h"
 
 void delay(void);
+//void display(uint8_t);
 
 #endif /* MAIN_H_ */
