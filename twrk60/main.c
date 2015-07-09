@@ -41,7 +41,7 @@ int main(void){
 			}else if ((byte >= 0x61) && (byte <= 0x66)){
 				byte = byte - 0x57; display(byte);
 				}else if((byte >= 0x41) && (byte <= 0x46)){
-					byte = byte - 0x55; display(byte);
+					byte = byte - 0x37; display(byte);
 				}else{
 				
 				}
