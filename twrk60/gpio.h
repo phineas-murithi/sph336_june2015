@@ -12,6 +12,7 @@
 #include "main.h"
 
 void gpio_init(void);
+void display(uint8_t byte);
 
 extern void toggle_LEDS(void);
 extern void toggle_LED1(void);
@@ -60,6 +61,10 @@ void PORTA_IRQHandler(void)
 {
 	PA->ISFR.word_reg = 0xFFFFFFFF; //clear Interrupt Status Register by writing ones in all bits --- why???
 	toggle_LED2(); //toggle the second LED to indicate interrupt serviced
+}
+
+void display(uint8_t byte){
+	GPIOA->PDOR.word_reg = ~(uint32_t)((byte>>0&1)<<11 | (byte>>1&1)<<28 | (byte>>2&1)<<29 | (byte>>3&1)<<10);
 }
 
 #endif /* GPIO_H_ */
