@@ -11,6 +11,8 @@
 #include"gpio.h"
 #include"uart.h"
 
+uint8_t byte=0x0;
 void delay(void);
+
 
 #endif /* MAIN_H_ */
