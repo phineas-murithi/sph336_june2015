@@ -27,3 +27,59 @@ uint16 ADC1_Read16b(uint8 channelNumber)
 	return ADC1_RA; 
 }
 
+/******************************************************************************
+	AUTO CAL ROUTINE  
+	Calibrates the ADC1_ automatically.
+	Required after reset and before a conversion is initiated
+******************************************************************************/
+uint_8 ADC_Cal(ADC_MemMapPtr adcmap)
+{
+
+  unsigned int cal_var;
+
+  ADC_SC2_REG(adcmap) &=  ~ADC_SC2_ADTRG_MASK ; // Enable Software Conversion Trigger for Calibration Process
+  ADC_SC3_REG(adcmap) &= ( ~ADC_SC3_ADCO_MASK & ~ADC_SC3_AVGS_MASK ); // set single conversion, clear avgs bitfield for next writing
+  ADC_SC3_REG(adcmap) |= ( ADC_SC3_AVGE_MASK | ADC_SC3_AVGS(AVGS_32) );  // Turn averaging ON and set at max value ( 32 )
+
+
+  ADC_SC3_REG(adcmap) |= ADC_SC3_CAL_MASK ;      // Start CAL
+  while ( (ADC_SC1_REG(adcmap,A) & ADC_SC1_COCO_MASK ) == COCO_NOT ); // Wait calibration end
+  	
+  if ((ADC_SC3_REG(adcmap)& ADC_SC3_CALF_MASK) == CALF_FAIL ) return(1);    // Check for Calibration fail error and return
+
+  // Calculate plus-side calibration as per 21.4.7
+  cal_var = 0x00;
+
+  cal_var =  ADC_CLP0_REG(adcmap);
+  cal_var += ADC_CLP1_REG(adcmap);
+  cal_var += ADC_CLP2_REG(adcmap);
+  cal_var += ADC_CLP3_REG(adcmap);
+  cal_var += ADC_CLP4_REG(adcmap);
+  cal_var += ADC_CLPS_REG(adcmap);
+
+  cal_var = cal_var/2;
+  cal_var |= 0x8000; // Set MSB
+
+  ADC_PG_REG(adcmap) = ADC_PG_PG(cal_var);
+
+
+  // Calculate minus-side calibration as per 21.4.7
+  cal_var = 0x00;
+
+  cal_var =  ADC_CLM0_REG(adcmap);
+  cal_var += ADC_CLM1_REG(adcmap);
+  cal_var += ADC_CLM2_REG(adcmap);
+  cal_var += ADC_CLM3_REG(adcmap);
+  cal_var += ADC_CLM4_REG(adcmap);
+  cal_var += ADC_CLMS_REG(adcmap);
+
+  cal_var = cal_var/2;
+
+  cal_var |= 0x8000; // Set MSB
+
+  ADC_MG_REG(adcmap) = ADC_MG_MG(cal_var);
+
+  ADC_SC3_REG(adcmap) &= ~ADC_SC3_CAL_MASK ; /* Clear CAL bit */
+
+  return(0);
+}
