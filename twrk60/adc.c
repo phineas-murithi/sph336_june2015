@@ -47,7 +47,7 @@ uint_8 ADC_Cal(ADC_MemMapPtr adcmap)
   	
   if ((ADC_SC3_REG(adcmap)& ADC_SC3_CALF_MASK) == CALF_FAIL ) return(1);    // Check for Calibration fail error and return
 
-  // Calculate plus-side calibration as per 21.4.7
+  // Calculate plus-side calibration for differential mode or the overall conversion in single-ended mode.
   cal_var = 0x00;
 
   cal_var =  ADC_CLP0_REG(adcmap);
@@ -63,7 +63,7 @@ uint_8 ADC_Cal(ADC_MemMapPtr adcmap)
   ADC_PG_REG(adcmap) = ADC_PG_PG(cal_var);
 
 
-  // Calculate minus-side calibration as per 21.4.7
+  /*Calculate minus-side calibration which is only for differential mode and is ignored for single-ended mode
   cal_var = 0x00;
 
   cal_var =  ADC_CLM0_REG(adcmap);
@@ -74,10 +74,9 @@ uint_8 ADC_Cal(ADC_MemMapPtr adcmap)
   cal_var += ADC_CLMS_REG(adcmap);
 
   cal_var = cal_var/2;
-
   cal_var |= 0x8000; // Set MSB
 
-  ADC_MG_REG(adcmap) = ADC_MG_MG(cal_var);
+  ADC_MG_REG(adcmap) = ADC_MG_MG(cal_var);*/
 
   ADC_SC3_REG(adcmap) &= ~ADC_SC3_CAL_MASK ; /* Clear CAL bit */
 
