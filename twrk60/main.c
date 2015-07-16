@@ -63,4 +63,3 @@ void delay(void)
       __asm__("nop");
   }
 }
-
