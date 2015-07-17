@@ -3,7 +3,7 @@
  *
  */
  
-#include "adc1.h"
+#include "adc.h"
 
 
 // Configure ADC1 16bit single ended mode
@@ -19,7 +19,7 @@ void ADC1_Init16b(void)
         /*In Kinetis the ADC pins are ADC inputs by default */          
 }
 
-uint16 ADC1_Read16b(uint8 channelNumber)
+uint16_t ADC1_Read16b(uint8_t channelNumber)
 {
 	ADC1_SC1A = channelNumber & ADC_SC1_ADCH_MASK;	                /* Write to ADCSC1 to start conversion */
 	while ((ADC1_SC2 & 0x80)); 				  	/* Wait if the conversion is in progress */
@@ -32,13 +32,13 @@ uint16 ADC1_Read16b(uint8 channelNumber)
 	Calibrates the ADC1_ automatically.
 	Required after reset and before a conversion is initiated
 ******************************************************************************/
-uint_8 ADC_Cal(ADC_MemMapPtr adcmap)
+uint8_t ADC_Cal(ADC_MemMapPtr adcmap)
 {
 
   unsigned int cal_var;
 
   ADC_SC2_REG(adcmap) &=  ~ADC_SC2_ADTRG_MASK ; // Enable Software Conversion Trigger for Calibration Process
-  ADC_SC3_REG(adcmap) &= ( ~ADC_SC3_ADC1_MASK & ~ADC_SC3_AVGS_MASK ); // set single conversion, clear avgs bitfield for next writing
+  ADC_SC3_REG(adcmap) &= ( ~ADC_SC3_ADCO_MASK & ~ADC_SC3_AVGS_MASK ); // set single conversion, clear avgs bitfield for next writing
   ADC_SC3_REG(adcmap) |= ( ADC_SC3_AVGE_MASK | ADC_SC3_AVGS(AVGS_32) );  // Turn averaging ON and set at max value ( 32 )
 
 

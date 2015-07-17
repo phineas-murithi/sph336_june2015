@@ -11,9 +11,9 @@
 
 //Configuration
 void ADC1_Init16b(void);
-uint16 ADC1_Read16b(uint8 channelNumber);
+uint16_t ADC1_Read16b(uint8_t channelNumber);
 
 //Calibration
-uint_8 ADC_Cal(ADC_MemMapPtr adcmap);
+uint8_t ADC_Cal(ADC_MemMapPtr adcmap);
 
 #endif /* ADC1_H_ */

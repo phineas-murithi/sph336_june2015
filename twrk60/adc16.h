@@ -171,7 +171,7 @@ uint8_t   CLM0;
 
 // prototypes
 
-uint_8 ADC_Cal(ADC_MemMapPtr);
+uint8_t ADC_Cal(ADC_MemMapPtr);
 void ADC_Config(ADC_MemMapPtr, uint8_t , uint8_t , uint16_t , uint16_t, uint8_t , uint8_t , uint8_t , uint8_t , uint32_t );
 
 void ADC_Config_Alt(ADC_MemMapPtr, tADC_ConfigPtr);
