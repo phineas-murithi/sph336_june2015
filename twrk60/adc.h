@@ -7,7 +7,18 @@
 #define ADC1_H_
 
 #include "MK60DZ10.h"
-#include "adc16.h"
+
+#define A                 0x0
+#define B                 0x1
+
+#define COCO_NOT          0x00
+
+#define CALF_FAIL          ADC_SC3_CALF_MASK
+
+#define AVGS_4             0x00
+#define AVGS_8             0x01
+#define AVGS_16            0x02
+#define AVGS_32            0x03
 
 //Configuration
 void ADC1_Init16b(void);
