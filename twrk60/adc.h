@@ -20,11 +20,11 @@
 #define AVGS_16            0x02
 #define AVGS_32            0x03
 
-//Configuration
+//Configuration for single-ended mode
 void ADC1_Init16b(void);
 uint16_t ADC1_Read16b(uint8_t channelNumber);
 
-//Calibration
-uint8_t ADC_Cal(ADC_MemMapPtr adcmap);
+//Calibration for single-ended mode
+uint8_t ADC_CalSingle(ADC_MemMapPtr adcmap);
 
 #endif /* ADC1_H_ */
