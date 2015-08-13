@@ -1,7 +1,6 @@
 /*
  * uart.c
  *
- * Copyright (c) 2015 David Muriuki
  * see the LICENCE file
  */
 #include"uart.h"
@@ -57,12 +56,12 @@ uint16_t data_ready (UART_MemMapPtr channel)
 
 
 char uart_read(void){
-	return uart_getchar (UART5_BASE_PTR);
+	return uart_getchar (UART3_BASE_PTR);
 }
 
 //send a char to UART5_TX
 void uartsend(uint8_t ch){
-	uart_putchar (UART5_BASE_PTR,ch);
+	uart_putchar (UART3_BASE_PTR,ch);
 }
 
 //send a string
