@@ -27,6 +27,13 @@
 *.i*86
 *.x86_64
 *.hex
+example1/main
 
 # Debug files
 *.dSYM/
+
+#output directory
+twrk60/out
+
+#backup files
+*~

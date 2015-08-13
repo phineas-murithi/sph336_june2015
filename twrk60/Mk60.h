@@ -167,14 +167,22 @@ typedef struct{
  --------------------------------*/
 //instances of ports
 PORT PA = (PORT)pta;
+<<<<<<< HEAD
 PORT PB = (PORT)ptb;
+=======
+//PORT portB = (PORT)ptb;
+>>>>>>> ca0612b22baae650d13807c1ba51df74bf3bf3d5
 //PORT portC = (PORT)ptc;
 //PORT portD = (PORT)ptd;
 PORT PE = (PORT)pte;
 
 //instances of GPIO for ports
 GPIO GPIOA = (GPIO)porta;
+<<<<<<< HEAD
 GPIO GPIOB = (GPIO)portb;
+=======
+//GPIO PTB = (GPIO)portb;
+>>>>>>> ca0612b22baae650d13807c1ba51df74bf3bf3d5
 //GPIO PTC = (GPIO)portc;
 //GPIO PTD = (GPIO)portd;
 GPIO GPIOE = (GPIO)porte;
